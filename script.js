@@ -14,3 +14,5 @@ var person2 = {
 };
 var people = [person1, person2];
 console.log(people);
+var userRole = 'host';
+console.log('testing');

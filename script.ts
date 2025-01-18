@@ -34,3 +34,9 @@ let person2: Person = {
 let people: Person[] = [person1, person2];
 
 console.log(people);
+
+type UserRole = 'guest' | 'host' | 'game-master';
+
+let userRole: UserRole = 'host';
+
+console.log('testing');

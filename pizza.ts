@@ -1,15 +1,16 @@
 console.log('test');
 
 type Pizza = {
+  id: number;
   name: string;
   price: number;
 };
 
-const menu = [
-  { name: 'Marg', price: 8 },
-  { name: 'Pep', price: 18 },
-  { name: 'Veggie', price: 15 },
-  { name: 'Hawaiian', price: 2 },
+const menu: Pizza[] = [
+  { id: 1, name: 'Marg', price: 8 },
+  { id: 2, name: 'Pep', price: 18 },
+  { id: 3, name: 'Veggie', price: 15 },
+  { id: 4, name: 'Hawaiian', price: 2 },
 ];
 
 let cashInRegister = 100;
@@ -28,13 +29,13 @@ function addNewPizza(addPizza: Pizza) {
   menu.push(addPizza);
 }
 
-addNewPizza({ name: 'supreme', price: 12 });
+addNewPizza({ id: 5, name: 'supreme', price: 12 });
 
 console.log(menu);
 
 let nextOrderId = 1;
 
-function placeOrder(pizzaName: string) {
+function placeOrder(pizzaName: string): Order[] | null {
   //Find the pizza in the menu
   const pizza = menu.find((item) => item.name === pizzaName);
 
@@ -49,7 +50,11 @@ function placeOrder(pizzaName: string) {
       ID: number;
     };
 
-    let orderedPizza = { ...pizza, status: 'ordered', ID: nextOrderId++ };
+    let orderedPizza: Order = {
+      ...pizza,
+      status: 'ordered',
+      ID: nextOrderId++,
+    };
 
     //Add to orderQueue
     orderQueue.push(orderedPizza);
@@ -63,7 +68,7 @@ function placeOrder(pizzaName: string) {
 
 console.log(placeOrder('Veggie'));
 
-function completeOrder(orderID: number) {
+function completeOrder(orderID: number): Order[] | null {
   // Find the order in the queue by ID
   const order = orderQueue.find((item) => item.ID === orderID);
 
@@ -83,3 +88,19 @@ function completeOrder(orderID: number) {
 }
 
 console.log(completeOrder(1));
+
+function getPizzaDetail(identifier: string | number): Pizza | undefined {
+  if (typeof identifier === 'string') {
+    return menu.find(
+      (pizza) => pizza.name.toLowerCase() === identifier.toLowerCase()
+    );
+  } else if (typeof identifier === 'number') {
+    return menu.find((pizza) => pizza.id === identifier);
+  } else {
+    throw new TypeError(
+      'Parameter `identifier` must be either a string or a number'
+    );
+  }
+}
+
+console.log(getPizzaDetail(2));
